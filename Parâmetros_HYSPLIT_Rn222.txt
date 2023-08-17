@@ -1,0 +1,7 @@
+Particle Diameter(um), density(g/cc), Shape: 0.0 0.00973 0.0
+Vel(m/s), Mol Wgt(g), A-Ratio, D-Ratio, Henry: 0.0 0.0 0.0 0.0 0.0
+Henry's(M/a), In-cloud(1/s), Below-cloud(1/s): 0.0 0.0 0.0
+Radioactive decay half-life(days): 3.822
+Pollutant Resuspension Factor(1/m): 0.0
+
+Cubatão (Lat Lon Height): -23.8333336014725 -46.38574757419513 5.0
