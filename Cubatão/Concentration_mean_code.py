@@ -15,7 +15,6 @@ world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
 
 # Load your data
 teste = pd.read_csv('C:/Users/KeichiTS/Documents/MEGA/Pessoais/Rn222_Fosfogesso/Cubatão/Simulated_data/101022.txt', delimiter=r"\s+")
-
 # Create a Seaborn heatmap
 heatmap_data = teste.pivot('LAT', 'LON', 'Rn2200005')
 
