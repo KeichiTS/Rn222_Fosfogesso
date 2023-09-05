@@ -14,16 +14,20 @@ import numpy as np
 # Load world map shapefile
 world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
 
-# Load your data
-teste = pd.read_csv('C:/Users/KeichiTS/Documents/MEGA/Pessoais/Rn222_Fosfogesso/Cubatão/Simulated_data/101022.txt', delimiter=r"\s+")
-#df['Ln_Values'] = np.log(df['Values'])
+# Load your data localy
+heatmap_df = pd.read_csv('Simulated_data/101022.txt', delimiter=r"\s+")
 
-teste['Rn2200005'] = teste['Rn2200005']*10e+12
-teste['Rn2200005'] = np.log(teste['Rn2200005'])
+
+# Filter the DataFrame to include only rows with HR = 12 or HR = 00 
+###CHANGE IT IF YOU NEED!
+heatmap_df = heatmap_df[heatmap_df['HR'] == 12]
+
+heatmap_df['Rn2200005'] = heatmap_df['Rn2200005']*10e+12
+heatmap_df['Rn2200005'] = np.log(heatmap_df['Rn2200005'])
 
 
 # Create a Seaborn heatmap with a colorbar
-heatmap_data = teste.pivot('LAT', 'LON', 'Rn2200005')
+heatmap_data = heatmap_df.pivot('LAT', 'LON', 'Rn2200005')
 fig, ax = plt.subplots(figsize=(12, 8))
 
 # Plot the world map boundaries
@@ -36,9 +40,6 @@ heatmap = sns.heatmap(heatmap_data, cmap='cividis', cbar=True, ax=ax)
 plt.xlabel('Longitude')
 plt.ylabel('Latitude')
 plt.title('Heatmap of Rn2200005 Concentrations on World Map')
-
-# Set colorbar label
-heatmap.collections[0].colorbar.set_label('Rn2200005 Concentrations')
 
 # Show the plot
 plt.show()
