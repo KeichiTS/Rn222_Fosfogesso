@@ -9,13 +9,13 @@ import pandas as pd
 from datetime import datetime, timedelta
 
 # Definindo a data inicial
-data_atual = datetime(1990, 1, 1, 0, 0)
+data_atual = datetime(1992, 1, 1, 0, 0)
 
 # Criando uma lista para armazenar os dados
 dados = []
 
 # Gerando os dados até junho de 2023
-while data_atual <= datetime(1990, 12, 31, 0, 0):
+while data_atual <= datetime(1992, 12, 31, 0, 0):
     dados.append([
         f"{data_atual.year} {data_atual.month} {data_atual.day} {data_atual.hour} {data_atual.minute}"
     ])
@@ -25,6 +25,6 @@ while data_atual <= datetime(1990, 12, 31, 0, 0):
 df = pd.DataFrame(dados, columns=['Data'])
 
 # Escrevendo o DataFrame no arquivo Excel
-df.to_excel('dados_1990.xlsx', index=False)
+df.to_excel('dados_1992.xlsx', index=False)
 
-print("Arquivo Excel gerado com sucesso: dados_1990.xlsx")
+print("Arquivo Excel gerado com sucesso: dados_1992.xlsx")
