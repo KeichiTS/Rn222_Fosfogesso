@@ -8,7 +8,7 @@ Created on Wed Nov 22 16:54:31 2023
 import pandas as pd
 from datetime import datetime, timedelta
 
-ano = 1996
+ano = 1997
 
 # Definindo a data inicial
 data_atual = datetime(ano, 1, 1, 0, 0)
@@ -27,6 +27,6 @@ while data_atual <= datetime(ano, 12, 31, 0, 0):
 df = pd.DataFrame(dados, columns=['Data'])
 
 # Escrevendo o DataFrame no arquivo Excel
-df.to_excel('dados_1996.xlsx', index=False)
+df.to_excel('dados_1997.xlsx', index=False)
 
-print("Arquivo Excel gerado com sucesso: dados_1996.xlsx")
+print("Arquivo Excel gerado com sucesso: dados_1997.xlsx")
