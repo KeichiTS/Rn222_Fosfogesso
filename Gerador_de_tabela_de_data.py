@@ -7,7 +7,6 @@ Created on Wed Nov 22 16:54:31 2023
 
 import pandas as pd
 from datetime import datetime, timedelta
-
 ano = 2007
 
 # Definindo a data inicial
