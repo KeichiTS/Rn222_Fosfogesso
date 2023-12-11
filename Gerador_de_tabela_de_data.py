@@ -7,7 +7,7 @@ Created on Wed Nov 22 16:54:31 2023
 
 import pandas as pd
 from datetime import datetime, timedelta
-ano = 2010
+ano = 1990
 
 # Definindo a data inicial
 data_atual = datetime(ano, 1, 1, 0, 0)
