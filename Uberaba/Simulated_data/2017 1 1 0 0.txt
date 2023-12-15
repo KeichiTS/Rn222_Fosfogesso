@@ -1,1 +1,0 @@
-YEAR  MO  DA  HR    LAT     LON Rn2200010
