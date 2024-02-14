@@ -18,7 +18,7 @@ heatmap_df = pd.read_csv('Simulated_data/101022.txt', delimiter=r"\s+")
 
 # Filter the DataFrame to include only rows with HR = 12 or HR = 00 
 ###CHANGE IT IF YOU NEED!
-heatmap_df = heatmap_df[heatmap_df['HR'] == 00]
+heatmap_df = heatmap_df[heatmap_df['HR'] == 12]
 
 heatmap_df['Rn2200005'] = heatmap_df['Rn2200005']*10e+12
 heatmap_df['Rn2200005'] = np.log(heatmap_df['Rn2200005'])

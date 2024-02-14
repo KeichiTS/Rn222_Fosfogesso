@@ -19,7 +19,7 @@ data_frames = []
 
 # Define the file name pattern to match (e.g., '20*.txt' for all files starting with '20')
 #The pattern of the files is YYMMDD. i.e. 10*.txt 
-file_pattern = '12*.txt'
+file_pattern = '13*.txt'
 
 # Use glob to get a list of file paths matching the pattern
 file_paths = glob.glob(directory_path + file_pattern)
@@ -35,7 +35,7 @@ for file_path in file_paths:
 combined_df = pd.concat(data_frames, ignore_index=True)
 
 # Filter the DataFrame to include only rows with HR = 12 or HR = 00 
-combined_df = combined_df[combined_df['HR'] == 00]
+combined_df = combined_df[combined_df['HR'] == 12]
 
 # Group by 'LAT' and 'LON' and sum the 'Rn2200005' values
 summed_data = combined_df.groupby(['LAT', 'LON'])['Rn2200005'].sum().reset_index()
