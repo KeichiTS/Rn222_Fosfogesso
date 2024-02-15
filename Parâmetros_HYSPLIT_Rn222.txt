@@ -11,6 +11,9 @@ Total run time: 24
 
 Indentification: Rn222
 Emission rate(1/hr): 1 
+Emission rate(Bq/hr) - Cubatão: 94464000 Bq/h
+Emission rate(Bq/hr) - Uberaba: 462150000 Bq/h
+
 Hours of emission: 24
 
 Center of Lat and Lon: 0.0 0.0
