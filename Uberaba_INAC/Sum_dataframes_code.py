@@ -48,7 +48,7 @@ summed_data.rename(columns={'Rn2200010': 'Total_Rn2200010'}, inplace=True)
 
 
 # Define o limite mínimo de concentração
-limite_minimo = 0.002  # Ajuste conforme necessário
+limite_minimo = 0.004  # Ajuste conforme necessário
 
 # Filtra as concentrações muito baixas
 summed_data_filtrado = summed_data[summed_data['Total_Rn2200010'] > limite_minimo]
@@ -103,7 +103,7 @@ cbar.set_ticks(np.linspace(summed_data_filtrado['Total_Rn2200010'].min(), summed
 # Set axis labels and title
 plt.xlabel('Longitude')
 plt.ylabel('Latitude')
-plt.title('Heatmap of mean Rn222 concentrations in the atmosphere (Bq/m³) within a 10-meter column between 2018-2022')
+plt.title('Heatmap of mean Rn222 concentrations in the atmosphere (Bq/m³) within a 10-meter column between 2018-2022 - 12UTC')
 
 # Show the plot
 plt.show()

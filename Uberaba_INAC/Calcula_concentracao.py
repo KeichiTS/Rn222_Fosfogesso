@@ -40,7 +40,7 @@ print("Percentual de pontos ao Sudoeste: {:.2f}%".format(percentual_sudoeste))
 df['distancia'] = np.sqrt((df['LAT'] - lat_origem) ** 2 + (df['LON'] - lon_origem) ** 2)
 
 # 4. Filtrar os pontos que estão dentro do raio especificado a partir do ponto de origem
-raio = .5  # Raio em graus de latitude ou longitude
+raio = 4.5  # Raio em graus de latitude ou longitude
 pontos_dentro_raio = df[(df['LAT'] >= lat_origem - raio) & (df['LAT'] <= lat_origem + raio) &
                         (df['LON'] >= lon_origem - raio) & (df['LON'] <= lon_origem + raio)]
 

@@ -106,7 +106,7 @@ cbar.set_ticks(np.linspace(summed_data_filtrado['Total_Rn2200010'].min(), summed
 # Set axis labels and title
 plt.xlabel('Longitude')
 plt.ylabel('Latitude')
-plt.title('Heatmap of mean Rn222 concentrations in the atmosphere (Bq/m³) within a 10-meter column between 2018-2022')
+plt.title('Heatmap of mean Rn222 concentrations in the atmosphere (Bq/m³) within a 10-meter column between 2018-2022 - 12UTC')
 
 # Show the plot
 plt.show()
