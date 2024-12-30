@@ -12,14 +12,14 @@ import numpy as np
 from mpl_toolkits.basemap import Basemap
 
 # Specify the path to the directory containing your text files
-directory_path = 'Simulated_data/'
+directory_path = 'C:/Users/KeichiTS/Documents/MEGA/Pessoais/Rn222_Fosfogesso/Uberaba_New/'
 
 # Define a list to store DataFrames from all matching files
 data_frames = []
 
 # Define the file name pattern to match (e.g., '20*.txt' for all files starting with '20')
 #The pattern of the files is YYMMDD. i.e. 10*.txt 
-file_pattern = '13*.txt'
+file_pattern = '20*.txt'
 
 # Use glob to get a list of file paths matching the pattern
 file_paths = glob.glob(directory_path + file_pattern)
@@ -35,23 +35,24 @@ for file_path in file_paths:
 combined_df = pd.concat(data_frames, ignore_index=True)
 
 # Filter the DataFrame to include only rows with HR = 12 or HR = 00 
-combined_df = combined_df[combined_df['HR'] == 12]
+combined_df = combined_df[combined_df['HR'] == 00]
 
 # Group by 'LAT' and 'LON' and sum the 'Rn2200005' values
-summed_data = combined_df.groupby(['LAT', 'LON'])['Rn2200005'].sum().reset_index()
+summed_data = combined_df.groupby(['LAT', 'LON'])['Rn2200010'].sum().reset_index()
 
 # Rename the column to something meaningful like 'Total_Rn2200005'
-summed_data.rename(columns={'Rn2200005': 'Total_Rn2200005'}, inplace=True)
+summed_data.rename(columns={'Rn2200010': 'Total_Rn2200010'}, inplace=True)
 
-summed_data['Total_Rn2200005'] *= 10e+13
-summed_data['Total_Rn2200005'] = np.log(summed_data['Total_Rn2200005'])
+summed_data['Total_Rn2200010'] *= 6670296.69
+
+summed_data['Total_Rn2200010'] = np.log(summed_data['Total_Rn2200010'])
 
 # Get the latitude and longitude range
-lat_min, lat_max = summed_data['LAT'].min() - 5, summed_data['LAT'].max() + 5
-lon_min, lon_max = summed_data['LON'].min() - 5, summed_data['LON'].max() + 5
+lat_min, lat_max = summed_data['LAT'].min() - .2, summed_data['LAT'].max() + .2
+lon_min, lon_max = summed_data['LON'].min() - .2, summed_data['LON'].max() + .2
 
 # Create a pivot table for Seaborn heatmap
-heatmap_data = summed_data.pivot('LAT', 'LON', 'Total_Rn2200005')
+heatmap_data = summed_data.pivot(index='LAT', columns='LON', values='Total_Rn2200010')
 
 # Create a Matplotlib figure
 fig, ax = plt.subplots(figsize=(12, 8))
@@ -67,16 +68,16 @@ m.drawcountries()
 x, y = m(summed_data['LON'].values, summed_data['LAT'].values)
 
 # Create the heatmap using scatter plot
-sc = m.scatter(x, y, c=summed_data['Total_Rn2200005'].values, cmap='cividis', s=10, edgecolor='none', marker='s')
+sc = m.scatter(x, y, c=summed_data['Total_Rn2200010'].values, cmap='tab20c', s=800, edgecolor='none', marker='s')
 
 # Add colorbar
-cbar = m.colorbar(sc, location='bottom', pad="5%")
+cbar = m.colorbar(sc, location='bottom', pad="2%")
 cbar.set_label('Rn2200005 Concentrations')
 
 # Set axis labels and title
 plt.xlabel('Longitude')
 plt.ylabel('Latitude')
-plt.title('Heatmap of Rn2200005 Concentrations with Global Map')
+plt.title('Heatmap of Rn2200010 Concentrations with Global Map')
 
 # Show the plot
 plt.show()

@@ -12,13 +12,12 @@ import numpy as np
 from mpl_toolkits.basemap import Basemap
 
 # Specify the path to the directory containing your text files
-directory_path = 'Simulated_data/'
+directory_path = 'C:/Users/KeichiTS/Documents/MEGA/Pessoais/Rn222_Fosfogesso/Uberaba_New/'
 
 # Define a list to store DataFrames from all matching files
 data_frames = []
 
 # Define the file name pattern to match (e.g., '20*.txt' for all files starting with '20')
-#The pattern of the files is YYMMDD. i.e. 10*.txt 
 file_pattern = '20*.txt'
 
 # Use glob to get a list of file paths matching the pattern
@@ -35,84 +34,57 @@ for file_path in file_paths:
 combined_df = pd.concat(data_frames, ignore_index=True)
 
 # Filter the DataFrame to include only rows with HR = 12 or HR = 00 
-combined_df = combined_df[combined_df['HR'] == 12]
+combined_df = combined_df[combined_df['HR'] == 00]
 
-# Group by 'LAT' and 'LON' and sum the 'Rn2200005' values
-#summed_data = combined_df.groupby(['LAT', 'LON'])['Rn2200010'].sum().reset_index()
-summed_data = combined_df.groupby(['LAT', 'LON'])['Rn2200010'].mean().reset_index()
+# Group by 'LAT' and 'LON' and sum the 'Rn2200010' values
+summed_data = combined_df.groupby(['LAT', 'LON'])['Rn2200010'].sum().reset_index()
 
-
-# Rename the column to something meaningful like 'Rn2200010'
+# Rename the column to something meaningful
 summed_data.rename(columns={'Rn2200010': 'Total_Rn2200010'}, inplace=True)
 
+# Scale the concentrations
+summed_data['Total_Rn2200010'] *= 6670296.69
 
-
-# Define o limite mínimo de concentração
-limite_minimo = 0.0002  # Ajuste conforme necessário
-
-# Filtra as concentrações muito baixas
-summed_data_filtrado = summed_data[summed_data['Total_Rn2200010'] > limite_minimo]
+# Apply the log transformation
+summed_data['Total_Rn2200010'] = np.log(summed_data['Total_Rn2200010'])
 
 # Get the latitude and longitude range
-lat_min, lat_max = summed_data_filtrado['LAT'].min() - 0, summed_data_filtrado['LAT'].max() + 0
-lon_min, lon_max = summed_data_filtrado['LON'].min() - 0, summed_data_filtrado['LON'].max() + 0
-
-
-# Ajuste os limites de latitude e longitude para centralizar o plot
-# Adicione ou subtraia valores dos limites mínimos e máximos conforme necessário
-#lat_center = (lat_min + lat_max) / 2
-#lon_center = (lon_min + lon_max) / 2
-
-lat_center = -23.8333336014725
-lon_center = -46.38574757419513
-
-lat_min, lat_max = lat_center - .5, lat_center + .5
-lon_min, lon_max = lon_center - .5 , lon_center + .5
+lat_min, lat_max = summed_data['LAT'].min() - .02, summed_data['LAT'].max() + .02
+lon_min, lon_max = summed_data['LON'].min() - .02, summed_data['LON'].max() + .02
 
 # Create a pivot table for Seaborn heatmap
-heatmap_data = summed_data_filtrado.pivot('LAT', 'LON', 'Total_Rn2200010')
+heatmap_data = summed_data.pivot(index='LAT', columns='LON', values='Total_Rn2200010')
 
 # Create a Matplotlib figure
 fig, ax = plt.subplots(figsize=(12, 8))
 
-# Create a Basemap instance for the world
-m = Basemap(projection='mill', llcrnrlat=lat_min, urcrnrlat=lat_max, llcrnrlon=lon_min, urcrnrlon=lon_max, resolution='i')
+# Create a Basemap instance
+m = Basemap(projection='mill', llcrnrlat=lat_min, urcrnrlat=lat_max, 
+            llcrnrlon=lon_min, urcrnrlon=lon_max, resolution='i')
 
 # Draw coastlines and political boundaries
 m.drawcoastlines()
 m.drawcountries()
 
-# Draw gridlines
-m.drawparallels(np.arange(lat_min, lat_max, .2), labels=[1,0,0,0], fontsize=10)
-m.drawmeridians(np.arange(lon_min, lon_max, .2), labels=[0,0,0,1], fontsize=10)
+# Draw gridlines (parallels and meridians)
+m.drawparallels(np.arange(lat_min, lat_max, 1), labels=[1,0,0,0], fontsize=10)
+m.drawmeridians(np.arange(lon_min, lon_max, 1), labels=[0,0,0,1], fontsize=10)
 
 # Convert lat/lon to map coordinates
-x, y = m(summed_data_filtrado['LON'].values, summed_data_filtrado['LAT'].values)
+x, y = m(summed_data['LON'].values, summed_data['LAT'].values)
 
 # Create the heatmap using scatter plot
-sc = m.scatter(x, y, c=summed_data_filtrado['Total_Rn2200010'].values, cmap='tab20c', s=500, edgecolor='none', marker='s')
+sc = m.scatter(x, y, c=summed_data['Total_Rn2200010'].values, cmap='tab20c', 
+               s=800, edgecolor='none', marker='s')
 
 # Add colorbar
-cbar = m.colorbar(sc, location='bottom', pad="5%")
+cbar = m.colorbar(sc, location='bottom', pad="2%")
 cbar.set_label('Rn2200010 Concentrations')
-
-# Define o número de intervalos desejados na colorbar
-num_intervalos = 6
-
-# Adiciona ticks à colorbar
-cbar.set_ticks(np.linspace(summed_data_filtrado['Total_Rn2200010'].min(), summed_data_filtrado['Total_Rn2200010'].max(), num_intervalos))
-
 
 # Set axis labels and title
 plt.xlabel('Longitude')
 plt.ylabel('Latitude')
-plt.title('Heatmap of mean Rn222 concentrations in the atmosphere (Bq/m³) within a 10-meter column between 2018-2022 - 12UTC')
+plt.title('Heatmap of Rn2200010 Concentrations with Global Map')
 
 # Show the plot
 plt.show()
-
-# Especifique o caminho do arquivo onde você deseja salvar o DataFrame
-caminho_arquivo_csv = 'summed_data.csv'
-
-# Salve o DataFrame em um arquivo CSV
-summed_data.to_csv(caminho_arquivo_csv, index=False)

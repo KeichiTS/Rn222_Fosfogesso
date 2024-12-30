@@ -9,9 +9,10 @@ import pandas as pd
 import numpy as np
 
 # Leitura do arquivo CSV
-df = pd.read_csv('summed_data.csv')
+df = pd.read_csv('C:/Users/KeichiTS/Documents/MEGA/Pessoais/Rn222_Fosfogesso/Codes_and_Results/cubatao_data_filtered_combined.csv')
 
-lat_origem, lon_origem = -19.980428531205444, -47.87719937858118
+lat_origem, lon_origem = -23.8333336014725, -46.38574757419513
+
 
 # Define as fronteiras das regiões
 lat_border = lat_origem + 0.5
@@ -40,15 +41,15 @@ print("Percentual de pontos ao Sudoeste: {:.2f}%".format(percentual_sudoeste))
 df['distancia'] = np.sqrt((df['LAT'] - lat_origem) ** 2 + (df['LON'] - lon_origem) ** 2)
 
 # 4. Filtrar os pontos que estão dentro do raio especificado a partir do ponto de origem
-raio = 4.5  # Raio em graus de latitude ou longitude
+raio = 5     # Raio em graus de latitude ou longitude
 pontos_dentro_raio = df[(df['LAT'] >= lat_origem - raio) & (df['LAT'] <= lat_origem + raio) &
                         (df['LON'] >= lon_origem - raio) & (df['LON'] <= lon_origem + raio)]
 
 # 5. Calcular a concentração total de radônio dentro da área específica
-concentracao_total_area = pontos_dentro_raio['Total_Rn2200010'].sum()
+concentracao_total_area = pontos_dentro_raio['Total_Rn2200100_Sum'].sum()
 
 # 6. Calcular a concentração total de radônio em todo o conjunto de dados
-concentracao_total_todos_pontos = df['Total_Rn2200010'].sum()
+concentracao_total_todos_pontos = df['Total_Rn2200100_Sum'].sum()
 
 # 7. Calcular o percentual de concentração na área em relação à concentração total de radônio em todo o conjunto de dados
 percentual_concentracao_area = (concentracao_total_area / concentracao_total_todos_pontos) * 100
